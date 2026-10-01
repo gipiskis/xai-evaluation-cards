@@ -713,13 +713,15 @@
   function toLatex(card) {
     var rows = [];
     fieldValues(card).forEach(function (sec) {
-      rows.push("\\multicolumn{2}{l}{\\textbf{" + texEscape(sec[0]) + "}} \\\\[2pt]");
+      rows.push("\\multicolumn{2}{@{}l}{\\textbf{" + texEscape(sec[0]) + "}} \\\\[2pt]");
       sec[1].forEach(function (row) {
         var vals = row[1].filter(Boolean), body;
         if (!vals.length) body = "\\emph{(not provided)}";
         else if (vals.length === 1) body = texEscape(vals[0]).replace(/\n\n/g, " \\newline ");
-        else body = "\\begin{itemize}[leftmargin=*,nosep,topsep=0pt]" +
-          vals.map(function (v) { return "\\item " + texEscape(v); }).join("") + "\\end{itemize}";
+        // in a minipage the list starts on the same line as the field name
+        else body = "\\begin{minipage}[t]{\\linewidth}\\begin{itemize}[leftmargin=*,nosep]" +
+          vals.map(function (v) { return "\\item " + texEscape(v); }).join("") +
+          "\\strut\\end{itemize}\\end{minipage}";
         rows.push(texEscape(row[0]) + " & " + body + " \\\\[3pt]");
       });
       rows.push("\\addlinespace");

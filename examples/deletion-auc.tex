@@ -10,22 +10,22 @@
 \toprule
 \multicolumn{2}{c}{\textbf{XAI Evaluation Card}} \\
 \midrule
-\multicolumn{2}{l}{\textbf{I. Identity}} \\[2pt]
+\multicolumn{2}{@{}l}{\textbf{I. Identity}} \\[2pt]
 Metric Name & Deletion Area Under the Curve (Deletion AUC / DAUC) (Petsiuk et al., 2018) \\[3pt]
 Target Property / Properties & Faithfulness / Fidelity. It operationalizes this by measuring if the features identified as ``important'' by the explanation are necessary for the model to maintain its predictive confidence. \\[3pt]
 Grounding Level & Functionally-grounded (proxy task). \\[3pt]
 \addlinespace
-\multicolumn{2}{l}{\textbf{II. Scope and Context}} \\[2pt]
+\multicolumn{2}{@{}l}{\textbf{II. Scope and Context}} \\[2pt]
 Evaluation Context & Applied to local feature attributions (e.g., saliency maps) across vision (both classification and segmentation tasks (Gipiškis et al., 2024)) and NLP modalities. Requires a model with probability or logit outputs. \\[3pt]
 Assumptions & Assumes that iteratively masking top-rated features will degrade model performance if the explanation is faithful. Assumes the chosen baseline/imputation method (e.g., replacing pixels with zeros, mean values, or blurring) is meaningful and does not artificially break the model. \\[3pt]
 \addlinespace
-\multicolumn{2}{l}{\textbf{III. Implementation and Validation}} \\[2pt]
+\multicolumn{2}{@{}l}{\textbf{III. Implementation and Validation}} \\[2pt]
 Implementation Available? & Yes. \url{https://github.com/eclique/RISE/blob/master/evaluation.py}. \\[3pt]
 Validation Evidence & Empirical studies show DAUC is highly sensitive to the choice of the baseline/imputation value (e.g., zero-masking vs. generative inpainting). It carries a moderate-to-high computational cost, requiring multiple forward passes per instance as features are incrementally removed. \\[3pt]
 Gaming Risk & An explanation method could achieve a high DAUC score by intentionally selecting features that, when masked, create severe out-of-distribution (OOD) artifacts. The model's confidence drops because the input looks unnatural (like adversarial noise), not because the true explanatory features were removed. \\[3pt]
 Known Failure Cases & Can produce misleading results when features are highly correlated. The model might rely on a redundant, unmasked feature, making the DAUC score artificially low despite a good explanation. \\[3pt]
 \addlinespace
-\multicolumn{2}{l}{\textbf{IV. Relationships and Limitations}} \\[2pt]
+\multicolumn{2}{@{}l}{\textbf{IV. Relationships and Limitations}} \\[2pt]
 Relationship to Other Metrics & Conceptually similar to comprehensiveness (used in NLP). Often paired with the Insertion AUC metric. May disagree with Faithfulness Correlation if the model's response to feature removal is highly non-linear. \\[3pt]
 Disagreement Handling & If DAUC conflicts with Insertion AUC, DAUC should be prioritized if the deployment scenario strictly requires identifying the features that are necessary for the model to work (e.g., safety auditing for failure modes). \\[3pt]
 Limitations & The main limitation is the OOD problem. The metric might evaluate the model's robustness to missing data rather than the explanation's true fidelity. Should not be used in isolation without an insertion or OOD-compensated baseline. \\[3pt]
