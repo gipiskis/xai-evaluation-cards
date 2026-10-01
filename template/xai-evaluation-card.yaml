@@ -1,0 +1,126 @@
+# XAI Evaluation Card: blank template (YAML)
+#
+# The field descriptions are Table 1 of:
+#   Rokas Gipiškis and Olga Kurasova. 2026. Evaluation Cards for XAI Metrics.
+#   Proceedings of the Workshop on Evaluating Evaluations (EvalEval), 245–251.
+#   https://aclanthology.org/2026.evaleval-1.39/
+#
+# Replace every <...> placeholder and delete the optional keys you do not use.
+# The card can be checked against schema/xai-evaluation-card.schema.json.
+# Fields marked N/A require a brief justification.
+
+schema_version: "1.0"
+
+# Card details (optional)
+card_id: <lowercase-slug-for-this-metric>
+card_version: "1.0"
+last_updated: "<YYYY-MM-DD>"
+card_authors:
+  - <Name of a person responsible for this card>
+
+metric_source:                     # the paper that proposed the metric
+  citation: <Author et al. (YYYY)>
+  title: <Title of the paper that proposed the metric>
+  year: <YYYY>
+  venue: <Venue or journal>
+  url: <https://...>
+  # doi: 10.xxxx/xxxxx
+
+# I. Identity
+identity:
+
+  # Unique, descriptive name for the evaluation metric.
+  metric_name: <Full Metric Name (Abbrev)>
+
+  # Optional. Other names used for the same metric in the literature.
+  aliases:
+    - <Other name used in the literature>
+
+  # List all explainability properties this metric operationalizes (e.g.,
+  # fidelity, robustness, clarity), with references to definitions used.
+  target_properties:
+    - name: <e.g., faithfulness / fidelity / robustness / clarity / complexity>
+      reference: <Source of the property definition, e.g., Nauta et al. (2023)>
+      operationalization: <How the metric measures the property>
+
+  # One or more of: functionally-grounded / human-grounded / application-grounded
+  # (Doshi-Velez and Kim, 2017).
+  grounding_level:
+    - functionally-grounded
+
+  # Optional.
+  # grounding_level_justification: <...>
+
+# II. Scope and Context
+scope_and_context:
+
+  evaluation_context:
+    # Model architecture, data modality, and explanation scope (local / global)
+    # under which results are reported.
+    summary: <Conditions under which the reported results were obtained>
+
+    # Optional. The same information in structured form.
+    model_architectures:
+      - <e.g., CNN / transformer / any model with class probabilities>
+    data_modalities:
+      - <e.g., image / text / tabular / time-series / graph>
+    explanation_scope:
+      - local                      # local | global
+    explanation_types:
+      - <e.g., feature attribution / counterfactual / concept-based>
+
+  # All assumptions required by the metric (e.g., feature independence,
+  # locality, linearity, calibrated probabilities, meaningful baselines).
+  # One per entry.
+  assumptions:
+    - <e.g., Assumes feature independence when perturbing inputs.>
+    - <e.g., Assumes the chosen baseline or imputation value is meaningful.>
+
+# III. Implementation and Validation
+implementation_and_validation:
+
+  # Yes / No. If yes, provide URL or repository reference.
+  implementation_available: false            # true | false
+  # implementation_url: <URL or repository reference>   # required if true
+  # implementation_notes: <...>                         # optional
+
+  # Summary of sensitivity analysis, stability analysis, and correlation with
+  # related metrics. Report computational cost where relevant.
+  validation_evidence:
+    summary: <Summary of the validation evidence>
+
+    # Optional sub-fields.
+    sensitivity_analysis: <How the output varies with the metric's own hyperparameters>
+    stability_analysis: <How the output varies across re-runs or small input changes>
+    correlation_with_related_metrics: <Agreement with metrics targeting the same property>
+    computational_cost: <e.g., forward passes per instance>
+
+  # How a method could achieve a high score on this metric without improving the
+  # target explainability property.
+  gaming_risk: <...>
+
+  # Conditions under which the metric is known to fail or produce misleading
+  # results. One per entry.
+  known_failure_cases:
+    - <...>
+
+# IV. Relationships and Limitations
+relationships_and_limitations:
+
+  # Metrics targeting the same property. Known agreements or disagreements in
+  # results.
+  related_metrics:
+    - metric: <Name of a metric targeting the same property>
+      card_id: <card_id of its card, if there is one>   # optional
+      notes: <Known agreements or disagreements>
+
+  # If this metric conflicts with others reported, state which property is
+  # prioritised for the target deployment scenario and why.
+  disagreement_handling: <...>
+
+  # Main limitations as an operationalization of the target property. Note
+  # contexts where the metric should not be used. One per entry.
+  limitations:
+    - <...>
+
+# notes: <optional free text>

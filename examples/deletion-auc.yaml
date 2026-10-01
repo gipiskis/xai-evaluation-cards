@@ -1,0 +1,120 @@
+# XAI Evaluation Card: Deletion AUC
+#
+# From Appendix A (Table 2) of:
+#   Rokas Gipiškis and Olga Kurasova. 2026. Evaluation Cards for XAI Metrics.
+#   Proceedings of the Workshop on Evaluating Evaluations (EvalEval), 245–251.
+#   https://aclanthology.org/2026.evaleval-1.39/
+#
+# The fields under evaluation_context other than summary restate the Evaluation
+# Context entry.
+
+schema_version: "1.0"
+
+card_id: deletion-auc
+card_version: "1.0"
+last_updated: "2026-09-24"
+card_authors:
+  - Rokas Gipiškis
+  - Olga Kurasova
+
+metric_source:
+  citation: Petsiuk et al. (2018)
+  title: "RISE: Randomized Input Sampling for Explanation of Black-box Models"
+  authors:
+    - Vitali Petsiuk
+    - Abir Das
+    - Kate Saenko
+  year: 2018
+  venue: arXiv preprint arXiv:1806.07421
+  url: https://arxiv.org/abs/1806.07421
+
+# I. Identity
+identity:
+  metric_name: Deletion Area Under the Curve (Deletion AUC / DAUC)
+  target_properties:
+    - name: Faithfulness / Fidelity
+      operationalization: >-
+        It operationalizes this by measuring if the features identified as
+        "important" by the explanation are necessary for the model to maintain
+        its predictive confidence.
+  grounding_level:
+    - functionally-grounded
+  grounding_level_justification: Proxy task.
+
+# II. Scope and Context
+scope_and_context:
+  evaluation_context:
+    summary: >-
+      Applied to local feature attributions (e.g., saliency maps) across vision
+      (both classification and segmentation tasks (Gipiškis et al., 2024)) and
+      NLP modalities. Requires a model with probability or logit outputs.
+    model_architectures:
+      - Any model with probability or logit outputs
+    data_modalities:
+      - image
+      - text
+    explanation_scope:
+      - local
+    explanation_types:
+      - feature attribution
+  assumptions:
+    - >-
+      Assumes that iteratively masking top-rated features will degrade model
+      performance if the explanation is faithful.
+    - >-
+      Assumes the chosen baseline/imputation method (e.g., replacing pixels with
+      zeros, mean values, or blurring) is meaningful and does not artificially
+      break the model.
+
+# III. Implementation and Validation
+implementation_and_validation:
+  implementation_available: true
+  implementation_url: https://github.com/eclique/RISE/blob/master/evaluation.py
+
+  validation_evidence:
+    summary: >-
+      Empirical studies show DAUC is highly sensitive to the choice of the
+      baseline/imputation value (e.g., zero-masking vs. generative inpainting).
+      It carries a moderate-to-high computational cost, requiring multiple
+      forward passes per instance as features are incrementally removed.
+
+  gaming_risk: >-
+    An explanation method could achieve a high DAUC score by intentionally
+    selecting features that, when masked, create severe out-of-distribution
+    (OOD) artifacts. The model's confidence drops because the input looks
+    unnatural (like adversarial noise), not because the true explanatory
+    features were removed.
+
+  known_failure_cases:
+    - >-
+      Can produce misleading results when features are highly correlated. The
+      model might rely on a redundant, unmasked feature, making the DAUC score
+      artificially low despite a good explanation.
+
+# IV. Relationships and Limitations
+relationships_and_limitations:
+  related_metrics:
+    - metric: Comprehensiveness
+      notes: Conceptually similar to comprehensiveness (used in NLP).
+    - metric: Insertion AUC
+      notes: Often paired with the Insertion AUC metric.
+    - metric: Faithfulness Correlation
+      notes: >-
+        May disagree with Faithfulness Correlation if the model's response to
+        feature removal is highly non-linear.
+
+  disagreement_handling: >-
+    If DAUC conflicts with Insertion AUC, DAUC should be prioritized if the
+    deployment scenario strictly requires identifying the features that are
+    necessary for the model to work (e.g., safety auditing for failure modes).
+
+  limitations:
+    - >-
+      The main limitation is the OOD problem. The metric might evaluate the
+      model's robustness to missing data rather than the explanation's true
+      fidelity.
+    - >-
+      Should not be used in isolation without an insertion or OOD-compensated
+      baseline.
+
+notes: From Appendix A (Table 2) of Gipiškis and Kurasova (2026).

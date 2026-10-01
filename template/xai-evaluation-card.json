@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "card_id": "<lowercase-slug-for-this-metric>",
+  "card_version": "1.0",
+  "last_updated": "<YYYY-MM-DD>",
+  "card_authors": [
+    "<Name of a person responsible for this card>"
+  ],
+  "metric_source": {
+    "citation": "<Author et al. (YYYY)>",
+    "title": "<Title of the paper that proposed the metric>",
+    "year": "<YYYY>",
+    "venue": "<Venue or journal>",
+    "url": "<https://...>"
+  },
+  "identity": {
+    "metric_name": "<Full Metric Name (Abbrev)>",
+    "aliases": [
+      "<Other name used in the literature>"
+    ],
+    "target_properties": [
+      {
+        "name": "<e.g., faithfulness / fidelity / robustness / clarity / complexity>",
+        "reference": "<Source of the property definition, e.g., Nauta et al. (2023)>",
+        "operationalization": "<How the metric measures the property>"
+      }
+    ],
+    "grounding_level": [
+      "functionally-grounded"
+    ]
+  },
+  "scope_and_context": {
+    "evaluation_context": {
+      "summary": "<Conditions under which the reported results were obtained>",
+      "model_architectures": [
+        "<e.g., CNN / transformer / any model with class probabilities>"
+      ],
+      "data_modalities": [
+        "<e.g., image / text / tabular / time-series / graph>"
+      ],
+      "explanation_scope": [
+        "local"
+      ],
+      "explanation_types": [
+        "<e.g., feature attribution / counterfactual / concept-based>"
+      ]
+    },
+    "assumptions": [
+      "<e.g., Assumes feature independence when perturbing inputs.>",
+      "<e.g., Assumes the chosen baseline or imputation value is meaningful.>"
+    ]
+  },
+  "implementation_and_validation": {
+    "implementation_available": false,
+    "validation_evidence": {
+      "summary": "<Summary of the validation evidence>",
+      "sensitivity_analysis": "<How the output varies with the metric's own hyperparameters>",
+      "stability_analysis": "<How the output varies across re-runs or small input changes>",
+      "correlation_with_related_metrics": "<Agreement with metrics targeting the same property>",
+      "computational_cost": "<e.g., forward passes per instance>"
+    },
+    "gaming_risk": "<...>",
+    "known_failure_cases": [
+      "<...>"
+    ]
+  },
+  "relationships_and_limitations": {
+    "related_metrics": [
+      {
+        "metric": "<Name of a metric targeting the same property>",
+        "card_id": "<card_id of its card, if there is one>",
+        "notes": "<Known agreements or disagreements>"
+      }
+    ],
+    "disagreement_handling": "<...>",
+    "limitations": [
+      "<...>"
+    ]
+  }
+}

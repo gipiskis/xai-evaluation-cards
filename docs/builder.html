@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XAI Evaluation Card builder</title>
+<meta name="description" content="Fill in an XAI Evaluation Card in the browser and export it as YAML, JSON, Markdown or a LaTeX table.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">XAI Evaluation Cards</a>
+    <nav class="site-nav">
+      <a href="index.html">Overview</a>
+      <a href="builder.html" aria-current="page">Builder</a>
+      <a href="https://github.com/gipiskis/xai-evaluation-cards/blob/main/template/field-guide.md">Field guide</a>
+      <a href="https://aclanthology.org/2026.evaleval-1.39/">Paper</a>
+      <a href="https://github.com/gipiskis/xai-evaluation-cards">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section style="margin:2.5rem 0 2rem">
+    <h1>Build a card</h1>
+    <p style="max-width:44rem;color:var(--text-dim)">
+      Fill in the card and export it as YAML, JSON, Markdown or a LaTeX table. The draft is
+      saved in the browser.
+    </p>
+    <p style="max-width:44rem;color:var(--text-dim)">
+      The <a href="https://github.com/gipiskis/xai-evaluation-cards/blob/main/template/field-guide.md">field
+      guide</a> explains each field. The Deletion AUC example is the filled card from
+      Appendix A of the paper.
+    </p>
+    <div class="btn-row">
+      <button class="btn btn--sm" type="button" id="btn-example">Load the Deletion AUC example</button>
+      <label class="btn btn--sm" for="file-import" style="margin:0">Import a JSON card
+        <input type="file" id="file-import" accept=".json,application/json" class="sr-only">
+      </label>
+      <button class="btn btn--sm" type="button" id="btn-reset">Clear the form</button>
+    </div>
+    <p style="font-size:.85rem;color:var(--text-faint);max-width:44rem">
+      Fields marked N/A require a brief justification, e.g.,
+      <code>N/A: the metric has no free hyperparameters</code>.
+    </p>
+  </section>
+
+  <div class="builder-layout">
+
+    <div class="panel">
+      <header><h2>The card</h2>
+        <span style="margin-left:auto;font-size:.8rem;color:var(--text-faint)">* required</span>
+      </header>
+      <div class="panel__body">
+        <form id="card-form" autocomplete="off"></form>
+      </div>
+    </div>
+
+    <div class="panel panel--sticky">
+      <header>
+        <div class="tabs" role="tablist" aria-label="Output format">
+          <button class="tab" type="button" role="tab" data-format="preview" aria-selected="true">Preview</button>
+          <button class="tab" type="button" role="tab" data-format="yaml" aria-selected="false">YAML</button>
+          <button class="tab" type="button" role="tab" data-format="json" aria-selected="false">JSON</button>
+          <button class="tab" type="button" role="tab" data-format="md" aria-selected="false">Markdown</button>
+          <button class="tab" type="button" role="tab" data-format="tex" aria-selected="false">LaTeX</button>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:.4rem">
+          <button class="btn btn--sm" type="button" id="btn-copy">Copy</button>
+          <button class="btn btn--sm btn--primary" type="button" id="btn-download">Download</button>
+        </div>
+      </header>
+      <div class="status" id="status"></div>
+      <div class="preview" id="preview"></div>
+      <pre id="output" hidden><code></code></pre>
+    </div>
+
+  </div>
+
+  <section style="margin-top:3rem;max-width:48rem">
+    <h3>LaTeX export</h3>
+    <p style="font-size:.92rem;color:var(--text-dim)">
+      The LaTeX output requires <code>\usepackage{booktabs, tabularx, enumitem, url}</code>.
+      For a single-column layout, use <code>table</code> instead of <code>table*</code> and
+      <code>\linewidth</code> instead of <code>\textwidth</code>.
+    </p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>If you use the XAI Evaluation Card, please cite:</p>
+    <div class="cite">
+      Rokas Gipiškis and Olga Kurasova. 2026. <strong>Evaluation Cards for XAI Metrics.</strong>
+      In <em>Proceedings of the Workshop on Evaluating Evaluations (EvalEval)</em>, pages
+      245–251, San Diego, CA. Association for Computational Linguistics.
+      <a href="https://aclanthology.org/2026.evaleval-1.39/">aclanthology.org/2026.evaleval-1.39</a>
+    </div>
+    <p style="font-size:.82rem;color:var(--text-faint)">
+      Template and documentation: CC BY 4.0. Code: MIT.
+    </p>
+  </div>
+</footer>
+
+<dialog class="modal" id="modal" aria-labelledby="modal-title" aria-describedby="modal-body">
+  <form method="dialog">
+    <h2 class="modal__title" id="modal-title"></h2>
+    <div class="modal__body" id="modal-body"></div>
+    <div class="modal__actions">
+      <button class="btn" type="submit" value="cancel" id="modal-cancel">Cancel</button>
+      <button class="btn btn--primary" type="submit" value="confirm" id="modal-confirm">OK</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="assets/example-card.js"></script>
+<script src="assets/builder.js"></script>
+</body>
+</html>

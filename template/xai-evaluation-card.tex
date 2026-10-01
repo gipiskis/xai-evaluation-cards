@@ -1,0 +1,102 @@
+% XAI Evaluation Card: blank LaTeX template
+%
+% The field descriptions are Table 1 of:
+%   Rokas Gipiškis and Olga Kurasova. 2026. Evaluation Cards for XAI Metrics.
+%   Proceedings of the Workshop on Evaluating Evaluations (EvalEval), 245--251.
+%   https://aclanthology.org/2026.evaleval-1.39/
+%
+% Requires in the preamble: \usepackage{booktabs, tabularx, xcolor, url}
+%
+% Replace each \cardprompt{...} with your entry. For a single-column layout, use
+% table instead of table* and \linewidth instead of \textwidth. A filled example
+% is in examples/deletion-auc.tex.
+
+% Remove this macro once every prompt has been replaced.
+\providecommand{\cardprompt}[1]{\textit{\textcolor{gray}{#1}}}
+
+\begin{table*}[t]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+\multicolumn{2}{c}{\textbf{XAI Evaluation Card}} \\
+\midrule
+
+\multicolumn{2}{l}{\textbf{I. Identity}} \\[2pt]
+Metric Name &
+  \cardprompt{Unique, descriptive name for the evaluation metric.} \\[3pt]
+Target Property / Properties &
+  \cardprompt{List all explainability properties this metric operationalizes
+  (e.g., fidelity, robustness, clarity), with references to definitions used.} \\[3pt]
+Grounding Level &
+  \cardprompt{One or more of: functionally-grounded / human-grounded /
+  application-grounded (Doshi-Velez and Kim, 2017).} \\[3pt]
+\addlinespace
+
+\multicolumn{2}{l}{\textbf{II. Scope and Context}} \\[2pt]
+Evaluation Context &
+  \cardprompt{Model architecture, data modality, and explanation scope
+  (local / global) under which results are reported.} \\[3pt]
+Assumptions &
+  \cardprompt{All assumptions required by the metric (e.g., feature
+  independence, locality, linearity, calibrated probabilities, meaningful
+  baselines).} \\[3pt]
+\addlinespace
+
+\multicolumn{2}{l}{\textbf{III. Implementation and Validation}} \\[2pt]
+Implementation Available? &
+  \cardprompt{Yes / No. If yes, provide URL or repository reference.} \\[3pt]
+Validation Evidence &
+  \cardprompt{Summary of sensitivity analysis, stability analysis, and
+  correlation with related metrics. Report computational cost where relevant.} \\[3pt]
+Gaming Risk &
+  \cardprompt{How a method could achieve a high score on this metric without
+  improving the target explainability property.} \\[3pt]
+Known Failure Cases &
+  \cardprompt{Conditions under which the metric is known to fail or produce
+  misleading results.} \\[3pt]
+\addlinespace
+
+\multicolumn{2}{l}{\textbf{IV. Relationships and Limitations}} \\[2pt]
+Relationship to Other Metrics &
+  \cardprompt{Metrics targeting the same property. Known agreements or
+  disagreements in results.} \\[3pt]
+Disagreement Handling &
+  \cardprompt{If this metric conflicts with others reported, state which
+  property is prioritised for the target deployment scenario and why.} \\[3pt]
+Limitations &
+  \cardprompt{Main limitations as an operationalization of the target property.
+  Note contexts where the metric should not be used.} \\[3pt]
+
+\bottomrule
+\end{tabularx}
+\caption{XAI Evaluation Card for \cardprompt{metric name}. Fields marked N/A
+require a brief justification. Template from~\cite{gipiskis-kurasova-2026-evaluation}.}
+\label{tab:xai-evaluation-card}
+\end{table*}
+
+% BibTeX:
+%
+% @inproceedings{gipiskis-kurasova-2026-evaluation,
+%     title = "Evaluation Cards for {XAI} Metrics",
+%     author = "Gipi{\v{s}}kis, Rokas  and
+%       Kurasova, Olga",
+%     editor = "Akhtar, Mubashara  and
+%       Batzner, Jan  and
+%       Choshen, Leshem  and
+%       Ghosh, Avijit  and
+%       Gohar, Usman  and
+%       Mickel, Jennifer  and
+%       Pant, Ichhya  and
+%       Talat, Zeerak  and
+%       Lin, Michelle",
+%     booktitle = "Proceedings of the Workshop on Evaluating Evaluations ({E}val{E}val)",
+%     month = jul,
+%     year = "2026",
+%     address = "San Diego, CA",
+%     publisher = "Association for Computational Linguistics",
+%     url = "https://aclanthology.org/2026.evaleval-1.39/",
+%     doi = "10.18653/v1/2026.evaleval-1.39",
+%     pages = "245--251",
+%     ISBN = "979-8-89176-429-3"
+% }

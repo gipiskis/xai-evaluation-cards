@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XAI Evaluation Cards</title>
+<meta name="description" content="A documentation template for explainable AI evaluation metrics. Templates, a JSON Schema and a card builder.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">XAI Evaluation Cards</a>
+    <nav class="site-nav">
+      <a href="index.html" aria-current="page">Overview</a>
+      <a href="builder.html">Builder</a>
+      <a href="https://github.com/gipiskis/xai-evaluation-cards/blob/main/template/field-guide.md">Field guide</a>
+      <a href="https://aclanthology.org/2026.evaleval-1.39/">Paper</a>
+      <a href="https://github.com/gipiskis/xai-evaluation-cards">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <div class="intro">
+    <h1>XAI Evaluation Cards</h1>
+    <p class="subtitle">
+      A documentation template for explainable AI evaluation metrics.
+    </p>
+    <p class="meta">
+      Rokas Gipiškis and Olga Kurasova. 2026. <strong>Evaluation Cards for XAI Metrics.</strong>
+      In <em>Proceedings of the Workshop on Evaluating Evaluations (EvalEval)</em>, ACL 2026,
+      pages 245–251, San Diego, CA. Association for Computational Linguistics.<br>
+      Earlier version: <em>5th Explainable AI for Computer Vision (XAI4CV) Workshop</em>,
+      CVPR 2026 (non-proceedings track).
+    </p>
+  </div>
+
+  <section>
+    <h2>Background</h2>
+    <p>
+      The evaluation of explainable AI (XAI) methods is affected by a lack of
+      standardization. Metrics are inconsistently defined, incompletely reported, and rarely
+      validated against common baselines. Our meta-review of eleven surveys published between
+      2021 and 2025 identified five recurring problems:
+    </p>
+    <ol>
+      <li>Metrics are introduced without declaring which properties they target.</li>
+      <li>Results are reported without specifying the evaluation context in which they are valid.</li>
+      <li>Few metrics include sensitivity or stability analysis as part of their original proposal.</li>
+      <li>Metric disagreements are rarely acknowledged and interpreted.</li>
+      <li>Implementation availability is inconsistent, with many metrics remaining at the level of theoretical definitions.</li>
+    </ol>
+    <p>The XAI Evaluation Card is designed to address all five.</p>
+  </section>
+
+  <section>
+    <h2>The card</h2>
+    <p>
+      The card is analogous to model cards and datasheets. Where model cards document what a
+      model does and for whom, evaluation cards document how the quality of an explanation is
+      being measured and under what conditions that measurement is valid. The template has
+      four sections (Table 1 in the paper):
+    </p>
+
+    <table class="card-table">
+      <tr class="section"><th colspan="2">I. Identity</th></tr>
+      <tr><th>Metric Name</th><td>Unique, descriptive name for the evaluation metric.</td></tr>
+      <tr><th>Target Property / Properties</th><td>List all explainability properties this metric operationalizes (e.g., fidelity, robustness, clarity), with references to definitions used.</td></tr>
+      <tr><th>Grounding Level</th><td>One or more of: functionally-grounded / human-grounded / application-grounded (Doshi-Velez and Kim, 2017).</td></tr>
+
+      <tr class="section"><th colspan="2">II. Scope and Context</th></tr>
+      <tr><th>Evaluation Context</th><td>Model architecture, data modality, and explanation scope (local / global) under which results are reported.</td></tr>
+      <tr><th>Assumptions</th><td>All assumptions required by the metric (e.g., feature independence, locality, linearity, calibrated probabilities, meaningful baselines).</td></tr>
+
+      <tr class="section"><th colspan="2">III. Implementation and Validation</th></tr>
+      <tr><th>Implementation Available?</th><td>Yes / No. If yes, provide URL or repository reference.</td></tr>
+      <tr><th>Validation Evidence</th><td>Summary of sensitivity analysis, stability analysis, and correlation with related metrics. Report computational cost where relevant.</td></tr>
+      <tr><th>Gaming Risk</th><td>How a method could achieve a high score on this metric without improving the target explainability property.</td></tr>
+      <tr><th>Known Failure Cases</th><td>Conditions under which the metric is known to fail or produce misleading results.</td></tr>
+
+      <tr class="section"><th colspan="2">IV. Relationships and Limitations</th></tr>
+      <tr><th>Relationship to Other Metrics</th><td>Metrics targeting the same property. Known agreements or disagreements in results.</td></tr>
+      <tr><th>Disagreement Handling</th><td>If this metric conflicts with others reported, state which property is prioritised for the target deployment scenario and why.</td></tr>
+      <tr><th>Limitations</th><td>Main limitations as an operationalization of the target property. Note contexts where the metric should not be used.</td></tr>
+    </table>
+
+    <p style="margin-top:1.2rem">
+      Fields marked N/A require a brief justification. The card is non-prescriptive: it does
+      not mandate any particular grounding level, metric, or validation procedure.
+    </p>
+  </section>
+
+  <section>
+    <h2>Resources</h2>
+    <ul class="links">
+      <li><a href="builder.html">Card builder</a>: fill in a card in the browser and export it as Markdown, LaTeX, YAML or JSON.</li>
+      <li><a href="https://github.com/gipiskis/xai-evaluation-cards/tree/main/template">Templates</a>: the card in Markdown, LaTeX, YAML and JSON.</li>
+      <li><a href="https://github.com/gipiskis/xai-evaluation-cards/blob/main/template/field-guide.md">Field guide</a>: what each field asks for.</li>
+      <li><a href="https://github.com/gipiskis/xai-evaluation-cards/blob/main/examples/deletion-auc.md">Example</a>: the Deletion AUC card from Appendix A of the paper.</li>
+      <li><a href="https://github.com/gipiskis/xai-evaluation-cards/tree/main/schema">JSON Schema</a>: for machine-readable cards.</li>
+    </ul>
+  </section>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>If you use the XAI Evaluation Card, please cite:</p>
+    <div class="cite">
+      Rokas Gipiškis and Olga Kurasova. 2026. <strong>Evaluation Cards for XAI Metrics.</strong>
+      In <em>Proceedings of the Workshop on Evaluating Evaluations (EvalEval)</em>, pages
+      245–251, San Diego, CA. Association for Computational Linguistics.
+      <a href="https://aclanthology.org/2026.evaleval-1.39/">aclanthology.org/2026.evaleval-1.39</a>
+    </div>
+    <p style="font-size:.82rem;color:var(--text-faint)">
+      Template and documentation: CC BY 4.0. Code: MIT.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

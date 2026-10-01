@@ -1,0 +1,403 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gipiskis.github.io/xai-evaluation-cards/schema/xai-evaluation-card.schema.json",
+  "title": "XAI Evaluation Card",
+  "description": "JSON Schema for the XAI Evaluation Card, from Gipiškis and Kurasova (2026), Evaluation Cards for XAI Metrics, Proceedings of the Workshop on Evaluating Evaluations (EvalEval), pages 245–251. https://aclanthology.org/2026.evaleval-1.39/",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "identity",
+    "scope_and_context",
+    "implementation_and_validation",
+    "relationships_and_limitations"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "description": "Version of the card schema.",
+      "type": "string",
+      "enum": [
+        "1.0"
+      ]
+    },
+    "card_id": {
+      "description": "Lowercase, hyphenated identifier for the card, e.g., deletion-auc.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "card_version": {
+      "description": "Version of the card.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+    },
+    "last_updated": {
+      "description": "Date of the last change (YYYY-MM-DD).",
+      "type": "string",
+      "format": "date",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "card_authors": {
+      "description": "People responsible for the card.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "metric_source": {
+      "description": "The paper that proposed the metric.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "citation": {
+          "description": "Short citation, e.g., Petsiuk et al. (2018).",
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "year": {
+          "type": "integer",
+          "minimum": 1950,
+          "maximum": 2100
+        },
+        "venue": {
+          "type": "string",
+          "minLength": 1
+        },
+        "doi": {
+          "type": "string",
+          "pattern": "^10\\.[0-9]{4,9}/[-._;()/:A-Za-z0-9]+$"
+        },
+        "url": {
+          "$ref": "#/$defs/url"
+        },
+        "bibtex_key": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "identity": {
+      "title": "I. Identity",
+      "description": "Section I of the card.",
+      "type": "object",
+      "required": [
+        "metric_name",
+        "target_properties",
+        "grounding_level"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "metric_name": {
+          "description": "Unique, descriptive name for the evaluation metric.",
+          "$ref": "#/$defs/text"
+        },
+        "aliases": {
+          "description": "Other names used for the same metric in the literature.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "target_properties": {
+          "description": "List all explainability properties this metric operationalizes (e.g., fidelity, robustness, clarity), with references to definitions used.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/targetProperty"
+          }
+        },
+        "grounding_level": {
+          "description": "One or more of: functionally-grounded / human-grounded / application-grounded (Doshi-Velez and Kim, 2017).",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "functionally-grounded",
+              "human-grounded",
+              "application-grounded"
+            ]
+          }
+        },
+        "grounding_level_justification": {
+          "description": "Optional justification for the grounding level.",
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "scope_and_context": {
+      "title": "II. Scope and Context",
+      "description": "Section II of the card.",
+      "type": "object",
+      "required": [
+        "evaluation_context",
+        "assumptions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "evaluation_context": {
+          "type": "object",
+          "required": [
+            "summary"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "summary": {
+              "description": "Model architecture, data modality, and explanation scope (local / global) under which results are reported.",
+              "$ref": "#/$defs/text"
+            },
+            "model_architectures": {
+              "description": "Model architectures, e.g., CNN, transformer.",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "data_modalities": {
+              "description": "Data modalities, e.g., image, text, tabular.",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "explanation_scope": {
+              "description": "local, global, or both.",
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "local",
+                  "global"
+                ]
+              }
+            },
+            "explanation_types": {
+              "description": "Explanation types, e.g., feature attribution, counterfactual.",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "assumptions": {
+          "description": "All assumptions required by the metric (e.g., feature independence, locality, linearity, calibrated probabilities, meaningful baselines). One per entry.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    },
+    "implementation_and_validation": {
+      "title": "III. Implementation and Validation",
+      "description": "Section III of the card.",
+      "type": "object",
+      "required": [
+        "implementation_available",
+        "validation_evidence",
+        "gaming_risk",
+        "known_failure_cases"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "implementation_available": {
+          "description": "Whether an implementation is available.",
+          "type": "boolean"
+        },
+        "implementation_url": {
+          "description": "URL or repository reference. Required if implementation_available is true.",
+          "$ref": "#/$defs/text"
+        },
+        "implementation_notes": {
+          "description": "Optional notes on the implementation.",
+          "$ref": "#/$defs/text"
+        },
+        "validation_evidence": {
+          "type": "object",
+          "required": [
+            "summary"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "summary": {
+              "description": "Summary of sensitivity analysis, stability analysis, and correlation with related metrics. Report computational cost where relevant.",
+              "$ref": "#/$defs/text"
+            },
+            "sensitivity_analysis": {
+              "description": "How the metric's output varies with its own hyperparameters.",
+              "$ref": "#/$defs/text"
+            },
+            "stability_analysis": {
+              "description": "How the metric's output varies across re-runs or small changes to the input.",
+              "$ref": "#/$defs/text"
+            },
+            "correlation_with_related_metrics": {
+              "description": "Agreement with metrics targeting the same property.",
+              "$ref": "#/$defs/text"
+            },
+            "computational_cost": {
+              "description": "Computational cost, e.g., forward passes per instance.",
+              "$ref": "#/$defs/text"
+            }
+          }
+        },
+        "gaming_risk": {
+          "description": "How a method could achieve a high score on this metric without improving the target explainability property.",
+          "$ref": "#/$defs/text"
+        },
+        "known_failure_cases": {
+          "description": "Conditions under which the metric is known to fail or produce misleading results. One per entry.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "implementation_available": {
+            "const": true
+          }
+        },
+        "required": [
+          "implementation_available"
+        ]
+      },
+      "then": {
+        "required": [
+          "implementation_url"
+        ]
+      }
+    },
+    "relationships_and_limitations": {
+      "title": "IV. Relationships and Limitations",
+      "description": "Section IV of the card.",
+      "type": "object",
+      "required": [
+        "related_metrics",
+        "disagreement_handling",
+        "limitations"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "related_metrics": {
+          "description": "Metrics targeting the same property. Known agreements or disagreements in results.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/relatedMetric"
+          }
+        },
+        "disagreement_handling": {
+          "description": "If this metric conflicts with others reported, state which property is prioritised for the target deployment scenario and why.",
+          "$ref": "#/$defs/text"
+        },
+        "limitations": {
+          "description": "Main limitations as an operationalization of the target property. Note contexts where the metric should not be used. One per entry.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    },
+    "notes": {
+      "description": "Optional free-text notes.",
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "pattern": "^\\s*([Nn]\\.?/?[Aa]\\.?|[Nn][Oo][Nn][Ee]|[Nn][Oo][Tt] [Aa][Pp][Pp][Ll][Ii][Cc][Aa][Bb][Ll][Ee]|[Tt][Bb][Dd]|[Tt][Oo][Dd][Oo]|[Uu][Nn][Kk][Nn][Oo][Ww][Nn]|[?]+|[-]+)\\s*$"
+      }
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://[^\\s]+$"
+    },
+    "targetProperty": {
+      "description": "A property name, or an object with the name, a definition reference and the operationalization.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/text"
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "description": "Property name, e.g., faithfulness.",
+              "$ref": "#/$defs/text"
+            },
+            "reference": {
+              "description": "Reference for the property definition, e.g., Nauta et al. (2023).",
+              "$ref": "#/$defs/text"
+            },
+            "operationalization": {
+              "description": "How the metric measures the property.",
+              "$ref": "#/$defs/text"
+            }
+          }
+        }
+      ]
+    },
+    "relatedMetric": {
+      "description": "A metric name, or an object with the metric name and notes.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/text"
+        },
+        {
+          "type": "object",
+          "required": [
+            "metric"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "metric": {
+              "$ref": "#/$defs/text"
+            },
+            "card_id": {
+              "description": "card_id of the related metric's card, if there is one.",
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            },
+            "notes": {
+              "$ref": "#/$defs/text"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

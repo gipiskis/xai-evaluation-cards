@@ -1,0 +1,55 @@
+cff-version: 1.2.0
+message: >-
+  If you use the XAI Evaluation Card, please cite the paper.
+title: "XAI Evaluation Cards"
+abstract: >-
+  Templates, a JSON Schema and a card builder for the XAI Evaluation Card, a documentation
+  template analogous to model cards and datasheets, designed to accompany any study that
+  introduces an explainable AI (XAI) evaluation metric. The card covers explicit declaration
+  of target properties, grounding levels, metric assumptions, validation evidence, gaming
+  risks, and known failure cases.
+type: software
+authors:
+  - family-names: "Gipiškis"
+    given-names: "Rokas"
+    affiliation: "AI Standards Lab"
+    email: "rokas.gipiskis@protonmail.com"
+  - family-names: "Kurasova"
+    given-names: "Olga"
+repository-code: "https://github.com/gipiskis/xai-evaluation-cards"
+url: "https://gipiskis.github.io/xai-evaluation-cards/"
+license:
+  - CC-BY-4.0
+  - MIT
+keywords:
+  - explainable AI
+  - XAI
+  - evaluation metrics
+  - documentation
+  - model cards
+  - reproducibility
+  - research transparency
+
+preferred-citation:
+  type: conference-paper
+  title: "Evaluation Cards for XAI Metrics"
+  authors:
+    - family-names: "Gipiškis"
+      given-names: "Rokas"
+    - family-names: "Kurasova"
+      given-names: "Olga"
+  collection-title: "Proceedings of the Workshop on Evaluating Evaluations (EvalEval)"
+  collection-type: "proceedings"
+  conference:
+    name: "Workshop on Evaluating Evaluations (EvalEval)"
+    city: "San Diego"
+    region: "CA"
+  publisher:
+    name: "Association for Computational Linguistics"
+  year: 2026
+  month: 7
+  start: 245
+  end: 251
+  doi: "10.18653/v1/2026.evaleval-1.39"
+  url: "https://aclanthology.org/2026.evaleval-1.39/"
+  isbn: "979-8-89176-429-3"
